@@ -9,7 +9,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || Object.assign || function (t) {
+var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
         for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
@@ -338,67 +338,65 @@ var ImageViewer = /** @class */ (function (_super) {
         }
         this.loadedIndex.set(index, true);
         var image = this.props.imageUrls[index];
-        if (image !== undefined) {
-            var imageStatus = __assign({}, this.state.imageSizes[index]);
-            // 保存 imageSize
-            var saveImageSize = function () {
-                // 如果已经 success 了，就不做处理
-                if (_this.state.imageSizes[index] && _this.state.imageSizes[index].status !== 'loading') {
-                    return;
-                }
-                var imageSizes = _this.state.imageSizes.slice();
-                imageSizes[index] = imageStatus;
-                _this.setState({ imageSizes: imageSizes });
-            };
-            if (this.state.imageSizes[index].status === 'success') {
-                // 已经加载过就不会加载了
+        var imageStatus = __assign({}, this.state.imageSizes[index]);
+        // 保存 imageSize
+        var saveImageSize = function () {
+            // 如果已经 success 了，就不做处理
+            if (_this.state.imageSizes[index] && _this.state.imageSizes[index].status !== 'loading') {
                 return;
             }
-            // 如果已经有宽高了，直接设置为 success
-            if (this.state.imageSizes[index].width > 0 && this.state.imageSizes[index].height > 0) {
-                imageStatus.status = 'success';
-                saveImageSize();
-                return;
-            }
-            // 是否加载完毕了图片大小
-            var sizeLoaded = false;
-            // 是否加载完毕了图片
-            var imageLoaded = false;
-            // Tagged success if url is started with file:, or not set yet(for custom source.uri).
-            if (!image.url || image.url.startsWith("file:")) {
-                imageLoaded = true;
-            }
-            // 如果已知源图片宽高，直接设置为 success
-            if (image.width && image.height) {
-                if (this.props.enablePreload && imageLoaded === false) {
-                    react_native_1.Image.prefetch(image.url);
-                }
-                imageStatus.width = image.width;
-                imageStatus.height = image.height;
-                imageStatus.status = 'success';
-                saveImageSize();
-                return;
-            }
-            react_native_1.Image.getSize(image.url, function (width, height) {
-                imageStatus.width = width;
-                imageStatus.height = height;
-                imageStatus.status = 'success';
-                saveImageSize();
-            }, function () {
-                try {
-                    var data = react_native_1.Image.resolveAssetSource(image.props.source);
-                    imageStatus.width = data.width;
-                    imageStatus.height = data.height;
-                    imageStatus.status = 'success';
-                    saveImageSize();
-                }
-                catch (newError) {
-                    // Give up..
-                    imageStatus.status = 'fail';
-                    saveImageSize();
-                }
-            });
+            var imageSizes = _this.state.imageSizes.slice();
+            imageSizes[index] = imageStatus;
+            _this.setState({ imageSizes: imageSizes });
+        };
+        if (this.state.imageSizes[index].status === 'success') {
+            // 已经加载过就不会加载了
+            return;
         }
+        // 如果已经有宽高了，直接设置为 success
+        if (this.state.imageSizes[index].width > 0 && this.state.imageSizes[index].height > 0) {
+            imageStatus.status = 'success';
+            saveImageSize();
+            return;
+        }
+        // 是否加载完毕了图片大小
+        var sizeLoaded = false;
+        // 是否加载完毕了图片
+        var imageLoaded = false;
+        // Tagged success if url is started with file:, or not set yet(for custom source.uri).
+        if (!image.url || image.url.startsWith("file:")) {
+            imageLoaded = true;
+        }
+        // 如果已知源图片宽高，直接设置为 success
+        if (image.width && image.height) {
+            if (this.props.enablePreload && imageLoaded === false) {
+                react_native_1.Image.prefetch(image.url);
+            }
+            imageStatus.width = image.width;
+            imageStatus.height = image.height;
+            imageStatus.status = 'success';
+            saveImageSize();
+            return;
+        }
+        react_native_1.Image.getSize(image.url, function (width, height) {
+            imageStatus.width = width;
+            imageStatus.height = height;
+            imageStatus.status = 'success';
+            saveImageSize();
+        }, function () {
+            try {
+                var data = react_native_1.Image.resolveAssetSource(image.props.source);
+                imageStatus.width = data.width;
+                imageStatus.height = data.height;
+                imageStatus.status = 'success';
+                saveImageSize();
+            }
+            catch (newError) {
+                // Give up..
+                imageStatus.status = 'fail';
+                saveImageSize();
+            }
+        });
     };
     /**
      * 回到原位
@@ -421,7 +419,7 @@ var ImageViewer = /** @class */ (function (_super) {
         var screenHeight = this.height;
         var ImageElements = this.props.imageUrls.map(function (image, index) {
             if ((_this.state.currentShowIndex || 0) > index + 1 || (_this.state.currentShowIndex || 0) < index - 1) {
-                return <react_native_1.View key={index} style={{ width: screenWidth, height: screenHeight }} />;
+                return <react_native_1.View key={index} style={{ width: screenWidth, height: screenHeight }}/>;
             }
             if (!_this.handleLongPressWithIndex.has(index)) {
                 _this.handleLongPressWithIndex.set(index, _this.handleLongPress.bind(_this, image));
@@ -430,7 +428,7 @@ var ImageViewer = /** @class */ (function (_super) {
             var height = _this.state.imageSizes[index] && _this.state.imageSizes[index].height;
             var imageInfo = _this.state.imageSizes[index];
             if (!imageInfo || !imageInfo.status) {
-                return <react_native_1.View key={index} style={{ width: screenWidth, height: screenHeight }} />;
+                return <react_native_1.View key={index} style={{ width: screenWidth, height: screenHeight }}/>;
             }
             // 如果宽大于屏幕宽度,整体缩放到宽度是屏幕宽度
             if (width > screenWidth) {
@@ -447,14 +445,14 @@ var ImageViewer = /** @class */ (function (_super) {
             var Wrapper = function (_a) {
                 var children = _a.children, others = __rest(_a, ["children"]);
                 return (<react_native_image_pan_zoom_1.default cropWidth={_this.width} cropHeight={_this.height} maxOverflow={_this.props.maxOverflow} horizontalOuterRangeOffset={_this.handleHorizontalOuterRangeOffset} responderRelease={_this.handleResponderRelease} onMove={_this.props.onMove} onLongPress={_this.handleLongPressWithIndex.get(index)} onClick={_this.handleClick} onDoubleClick={_this.handleDoubleClick} enableSwipeDown={_this.props.enableSwipeDown} swipeDownThreshold={_this.props.swipeDownThreshold} onSwipeDown={_this.handleSwipeDown} pinchToZoom={_this.props.enableImageZoom} enableDoubleClickZoom={_this.props.enableImageZoom} doubleClickInterval={_this.props.doubleClickInterval} {...others}>
-                    {children}
-                </react_native_image_pan_zoom_1.default>);
+          {children}
+        </react_native_image_pan_zoom_1.default>);
             };
             switch (imageInfo.status) {
                 case 'loading':
                     return (<Wrapper key={index} style={__assign({}, _this.styles.modalContainer, _this.styles.loadingContainer)} imageWidth={screenWidth} imageHeight={screenHeight}>
-                        <react_native_1.View style={_this.styles.loadingContainer}>{_this.props.loadingRender()}</react_native_1.View>
-                    </Wrapper>);
+              <react_native_1.View style={_this.styles.loadingContainer}>{_this.props.loadingRender()}</react_native_1.View>
+            </Wrapper>);
                 case 'success':
                     if (!image.props) {
                         image.props = {};
@@ -462,10 +460,8 @@ var ImageViewer = /** @class */ (function (_super) {
                     if (!image.props.style) {
                         image.props.style = {};
                     }
-                    image.props.style = __assign({}, _this.styles.imageStyle, image.props.style, {
-                        width: width,
-                        height: height
-                    });
+                    image.props.style = __assign({}, _this.styles.imageStyle, image.props.style, { width: width,
+                        height: height });
                     if (typeof image.props.source === 'number') {
                         // source = require(..), doing nothing
                     }
@@ -479,56 +475,56 @@ var ImageViewer = /** @class */ (function (_super) {
                         _this.preloadImage(_this.state.currentShowIndex || 0);
                     }
                     return (<react_native_image_pan_zoom_1.default key={index} ref={function (el) { return (_this.imageRefs[index] = el); }} cropWidth={_this.width} cropHeight={_this.height} maxOverflow={_this.props.maxOverflow} horizontalOuterRangeOffset={_this.handleHorizontalOuterRangeOffset} responderRelease={_this.handleResponderRelease} onMove={_this.props.onMove} onLongPress={_this.handleLongPressWithIndex.get(index)} onClick={_this.handleClick} onDoubleClick={_this.handleDoubleClick} imageWidth={width} imageHeight={height} enableSwipeDown={_this.props.enableSwipeDown} swipeDownThreshold={_this.props.swipeDownThreshold} onSwipeDown={_this.handleSwipeDown} panToMove={!_this.state.isShowMenu} pinchToZoom={_this.props.enableImageZoom && !_this.state.isShowMenu} enableDoubleClickZoom={_this.props.enableImageZoom && !_this.state.isShowMenu} doubleClickInterval={_this.props.doubleClickInterval} minScale={_this.props.minScale} maxScale={_this.props.maxScale}>
-                        {_this.props.renderImage(image.props)}
-                    </react_native_image_pan_zoom_1.default>);
+              {_this.props.renderImage(image.props)}
+            </react_native_image_pan_zoom_1.default>);
                 case 'fail':
                     return (<Wrapper key={index} style={_this.styles.modalContainer} imageWidth={_this.props.failImageSource ? _this.props.failImageSource.width : screenWidth} imageHeight={_this.props.failImageSource ? _this.props.failImageSource.height : screenHeight}>
-                        {_this.props.failImageSource &&
-                            _this.props.renderImage({
-                                source: {
-                                    uri: _this.props.failImageSource.url
-                                },
-                                style: {
-                                    width: _this.props.failImageSource.width,
-                                    height: _this.props.failImageSource.height
-                                }
-                            })}
-                    </Wrapper>);
+              {_this.props.failImageSource &&
+                        _this.props.renderImage({
+                            source: {
+                                uri: _this.props.failImageSource.url
+                            },
+                            style: {
+                                width: _this.props.failImageSource.width,
+                                height: _this.props.failImageSource.height
+                            }
+                        })}
+            </Wrapper>);
             }
         });
         return (<react_native_1.Animated.View style={{ zIndex: 9 }}>
-            <react_native_1.Animated.View style={__assign({}, this.styles.container, { opacity: this.fadeAnim })}>
-                {this.props.renderHeader(this.state.currentShowIndex)}
+        <react_native_1.Animated.View style={__assign({}, this.styles.container, { opacity: this.fadeAnim })}>
+          {this.props.renderHeader(this.state.currentShowIndex)}
 
-                <react_native_1.View style={this.styles.arrowLeftContainer}>
-                    <react_native_1.TouchableWithoutFeedback onPress={this.goBack}>
-                        <react_native_1.View>{this.props.renderArrowLeft()}</react_native_1.View>
-                    </react_native_1.TouchableWithoutFeedback>
-                </react_native_1.View>
+          <react_native_1.View style={this.styles.arrowLeftContainer}>
+            <react_native_1.TouchableWithoutFeedback onPress={this.goBack}>
+              <react_native_1.View>{this.props.renderArrowLeft()}</react_native_1.View>
+            </react_native_1.TouchableWithoutFeedback>
+          </react_native_1.View>
 
-                <react_native_1.View style={this.styles.arrowRightContainer}>
-                    <react_native_1.TouchableWithoutFeedback onPress={this.goNext}>
-                        <react_native_1.View>{this.props.renderArrowRight()}</react_native_1.View>
-                    </react_native_1.TouchableWithoutFeedback>
-                </react_native_1.View>
+          <react_native_1.View style={this.styles.arrowRightContainer}>
+            <react_native_1.TouchableWithoutFeedback onPress={this.goNext}>
+              <react_native_1.View>{this.props.renderArrowRight()}</react_native_1.View>
+            </react_native_1.TouchableWithoutFeedback>
+          </react_native_1.View>
 
-                <react_native_1.Animated.View style={__assign({}, this.styles.moveBox, { transform: [{ translateX: this.positionX }], width: this.width * this.props.imageUrls.length })}>
-                    {ImageElements}
-                </react_native_1.Animated.View>
-                {this.props.renderIndicator((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}
+          <react_native_1.Animated.View style={__assign({}, this.styles.moveBox, { transform: [{ translateX: this.positionX }], width: this.width * this.props.imageUrls.length })}>
+            {ImageElements}
+          </react_native_1.Animated.View>
+          {this.props.renderIndicator((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}
 
-                {this.props.imageUrls[this.state.currentShowIndex || 0] &&
-                    this.props.imageUrls[this.state.currentShowIndex || 0].originSizeKb &&
-                    this.props.imageUrls[this.state.currentShowIndex || 0].originUrl && (<react_native_1.View style={this.styles.watchOrigin}>
-                        <react_native_1.TouchableOpacity style={this.styles.watchOriginTouchable}>
-                            <react_native_1.Text style={this.styles.watchOriginText}>查看原图(2M)</react_native_1.Text>
-                        </react_native_1.TouchableOpacity>
-                    </react_native_1.View>)}
-                <react_native_1.View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.footerContainerStyle]}>
-                    {this.props.renderFooter(this.state.currentShowIndex || 0)}
-                </react_native_1.View>
-            </react_native_1.Animated.View>
-        </react_native_1.Animated.View>);
+          {this.props.imageUrls[this.state.currentShowIndex || 0] &&
+            this.props.imageUrls[this.state.currentShowIndex || 0].originSizeKb &&
+            this.props.imageUrls[this.state.currentShowIndex || 0].originUrl && (<react_native_1.View style={this.styles.watchOrigin}>
+                <react_native_1.TouchableOpacity style={this.styles.watchOriginTouchable}>
+                  <react_native_1.Text style={this.styles.watchOriginText}>查看原图(2M)</react_native_1.Text>
+                </react_native_1.TouchableOpacity>
+              </react_native_1.View>)}
+          <react_native_1.View style={[{ bottom: 0, position: 'absolute', zIndex: 9 }, this.props.footerContainerStyle]}>
+            {this.props.renderFooter(this.state.currentShowIndex || 0)}
+          </react_native_1.View>
+        </react_native_1.Animated.View>
+      </react_native_1.Animated.View>);
     };
     ImageViewer.prototype.getMenu = function () {
         if (!this.state.isShowMenu) {
@@ -536,30 +532,30 @@ var ImageViewer = /** @class */ (function (_super) {
         }
         if (this.props.menus) {
             return (<react_native_1.View style={this.styles.menuContainer}>
-                {this.props.menus({ cancel: this.handleLeaveMenu, saveToLocal: this.saveToLocal })}
-            </react_native_1.View>);
+          {this.props.menus({ cancel: this.handleLeaveMenu, saveToLocal: this.saveToLocal })}
+        </react_native_1.View>);
         }
         return (<react_native_1.View style={this.styles.menuContainer}>
-            <react_native_1.View style={this.styles.menuShadow} />
-            <react_native_1.View style={this.styles.menuContent}>
-                <react_native_1.TouchableHighlight underlayColor="#F2F2F2" onPress={this.saveToLocal} style={this.styles.operateContainer}>
-                    <react_native_1.Text style={this.styles.operateText}>{this.props.menuContext.saveToLocal}</react_native_1.Text>
-                </react_native_1.TouchableHighlight>
-                <react_native_1.TouchableHighlight underlayColor="#F2F2F2" onPress={this.handleLeaveMenu} style={this.styles.operateContainer}>
-                    <react_native_1.Text style={this.styles.operateText}>{this.props.menuContext.cancel}</react_native_1.Text>
-                </react_native_1.TouchableHighlight>
-            </react_native_1.View>
-        </react_native_1.View>);
+        <react_native_1.View style={this.styles.menuShadow}/>
+        <react_native_1.View style={this.styles.menuContent}>
+          <react_native_1.TouchableHighlight underlayColor="#F2F2F2" onPress={this.saveToLocal} style={this.styles.operateContainer}>
+            <react_native_1.Text style={this.styles.operateText}>{this.props.menuContext.saveToLocal}</react_native_1.Text>
+          </react_native_1.TouchableHighlight>
+          <react_native_1.TouchableHighlight underlayColor="#F2F2F2" onPress={this.handleLeaveMenu} style={this.styles.operateContainer}>
+            <react_native_1.Text style={this.styles.operateText}>{this.props.menuContext.cancel}</react_native_1.Text>
+          </react_native_1.TouchableHighlight>
+        </react_native_1.View>
+      </react_native_1.View>);
     };
     ImageViewer.prototype.render = function () {
         var childs = null;
         childs = (<react_native_1.View>
-            {this.getContent()}
-            {this.getMenu()}
-        </react_native_1.View>);
+        {this.getContent()}
+        {this.getMenu()}
+      </react_native_1.View>);
         return (<react_native_1.View onLayout={this.handleLayout} style={__assign({ flex: 1, overflow: 'hidden' }, this.props.style)}>
-            {childs}
-        </react_native_1.View>);
+        {childs}
+      </react_native_1.View>);
     };
     ImageViewer.defaultProps = new image_viewer_type_1.Props();
     return ImageViewer;
